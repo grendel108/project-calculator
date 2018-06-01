@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Retirement Calculator</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- import the webpage's stylesheet -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- import the webpage's javascript file -->
+    <script src="script.js" defer></script>
+  </head>  
+  <body>
+    <h1>Plan E Retirement Calculator</h1>
+    
+    <form>
+      <label for="retPlan">Plan:</label>
+      <input type="text" id="retPlan"><br>
+      
+      <label for="avgSalary">Salary:</label>
+      <input type="number" id="avgSalary"><br>
+
+      <label for="serviceCredit">Service Credit Years:</label>
+      <input type="number" id="serviceCredit"><br>
+
+      <label for="retAge">Retirement Age:</label>
+      <input type="number" id="retAge"><br>
+
+      <label for="estSSABenefit">Social Security Benefit:</label>
+      <input type="number" id="estSSABenefit"><br>
+
+      <label for="ssaYears">Social Security Years:</label>
+      <input type="number" id="ssaYears"><br>
+
+      <!--Should button be inside or outside form element?-->
+      <button type="button" id="submit">Submit</button>
+    </form>
+
+    <br>
+
+    <label for="results">Results:</label>
+    <p id="results">...</p>
+  </body>
+</html>

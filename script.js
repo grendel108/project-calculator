@@ -111,3 +111,5 @@ let eraFactors = {
 
 
 // https://www.webmasterworld.com/javascript/4451217.htm
+
+// Added this line locally on Macbook.

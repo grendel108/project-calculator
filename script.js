@@ -1,5 +1,17 @@
 // Verify that calculator's JS file is loaded.
-console.log("Retirement Calculator loaded.");
+console.log("Retirement Calculator has loaded.");
+
+// Initialize Firebase
+var config = {
+    apiKey: "AIzaSyAdicsEV3qamI6F5aXJc6WRuvAEBHeGWC8",
+    authDomain: "barry-firebase-test.firebaseapp.com",
+    databaseURL: "https://barry-firebase-test.firebaseio.com",
+    projectId: "barry-firebase-test",
+    storageBucket: "barry-firebase-test.appspot.com",
+    messagingSenderId: "200692124595"
+  };
+  firebase.initializeApp(config);
+
 
 // Server-side calculator: /benefits/Calculators/RetCalc/servlet/retcalcservlets.calculator
 
@@ -9,13 +21,13 @@ let avgSalary = document.getElementById("avgSalary");
 let serviceCredit = document.getElementById("serviceCredit");
 let retAge = document.getElementById("retAge");
 let estSSABenefit = document.getElementById("estSSABenefit");
-let SSAYears = document.getElementById("ssaYears");
+let ssaYears = document.getElementById("ssaYears");
 
 // Look up age factor. Both calc functions would use this, so leave as global variable.
 // let ageFactor = lookupAgeFactor (retPlan.value, retAge.value);
 
 // Benefit calculation amount.
-let retBenefit;
+// let retBenefit;
 
 // Assign Submit button and results to JS variable.
 let submitElem = document.getElementById("submit");
@@ -23,8 +35,21 @@ let resultElem = document.getElementById("results");
 
 // Event listener for Submit button.
 // Later, add a function that will call different calc function depending on Plans ABC or Plan E.
-submitElem.addEventListener("click", function() {calcPlanABCBenefit(retPlan.value, retAge.value, avgSalary.value, serviceCredit.value)});
-// submitElem.addEventListener("click", calcPlanEBenefit);
+submitElem.addEventListener("click", function() { 
+
+    // Add logic to call different calc function based on plan.
+    if (retPlan.value === "A" || retPlan.value === "B" || retPlan.value === "C") {
+
+        resultElem.textContent = calcPlanABCBenefit(retPlan.value, retAge.value, avgSalary.value, serviceCredit.value); 
+
+    } else {
+
+        resultElem.textContent = calcPlanEBenefit(retAge.value, avgSalary.value, serviceCredit.value);
+    }
+    
+
+});
+
 
 
 /////////////// FUNCTION DEFINITIONS ////////////////////
@@ -33,19 +58,15 @@ function calcPlanABCBenefit (plan_p, age_p, salary_p, serviceCredit_p) {
     // let ageFactor = lookupAgeFactor (plan_p, age_p);
     // Why is this not working if declared outside of function? Never mind. Why not just use the lookup function in the formula itself?
 
-    retBenefit = salary_p * serviceCredit_p * lookupAgeFactor (plan_p, age_p) / 60;
-    resultElem.textContent = retBenefit;
+    return salary_p * serviceCredit_p * lookupAgeFactor (plan_p, age_p) / 60;
 }
 
 // Plan E benefit calculation 
-function calcPlanEBenefit () {
-    retBenefit = avgSalary.value * serviceCredit.value * 0.02 * lookupERA(retAge.value);
-    resultElem.textContent = retBenefit;
+function calcPlanEBenefit (age_p, salary_p, serviceCredit_p) {
+    return salary_p * 0.02 * serviceCredit_p * lookupERA(age_p);
 }
 
 // Look up age factor based on Plan A, B, or C
-function lookupAgeFactor (plan, age) {
-        return planAFactors[age];
 function lookupAgeFactor (plan_p, age_p) {
     if (plan_p === "A") {
         return planAFactors[age_p];

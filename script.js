@@ -11,6 +11,9 @@ let retAge = document.getElementById("retAge");
 let estSSABenefit = document.getElementById("estSSABenefit");
 let SSAYears = document.getElementById("ssaYears");
 
+// Look up age factor. Both calc functions would use this, so leave as global variable.
+// let ageFactor = lookupAgeFactor (retPlan.value, retAge.value);
+
 // Benefit calculation amount.
 let retBenefit;
 
@@ -19,18 +22,20 @@ let submitElem = document.getElementById("submit");
 let resultElem = document.getElementById("results");
 
 // Event listener for Submit button.
-// submitElem.addEventListener("click", calcPlanABCBenefit);
-submitElem.addEventListener("click", calcPlanEBenefit);
+// Later, add a function that will call different calc function depending on Plans ABC or Plan E.
+submitElem.addEventListener("click", function() {calcPlanABCBenefit(retPlan.value, retAge.value, avgSalary.value, serviceCredit.value)});
+// submitElem.addEventListener("click", calcPlanEBenefit);
 
 
 /////////////// FUNCTION DEFINITIONS ////////////////////
 // Plan ABC benefit calculation
-function calcPlanABCBenefit () {
-    let ageFactor = lookupAgeFactor (retPlan, retAge);
-    retBenefit = avgSalary.value * serviceCredit.value * ageFactor.value / 60;
+function calcPlanABCBenefit (plan_p, age_p, salary_p, serviceCredit_p) {
+    // let ageFactor = lookupAgeFactor (plan_p, age_p);
+    // Why is this not working if declared outside of function? Never mind. Why not just use the lookup function in the formula itself?
+
+    retBenefit = salary_p * serviceCredit_p * lookupAgeFactor (plan_p, age_p) / 60;
     resultElem.textContent = retBenefit;
 }
-
 
 // Plan E benefit calculation 
 function calcPlanEBenefit () {
@@ -40,12 +45,14 @@ function calcPlanEBenefit () {
 
 // Look up age factor based on Plan A, B, or C
 function lookupAgeFactor (plan, age) {
-    if (plan === "A") {
         return planAFactors[age];
-    } else if (plan === "B") {
-        return planBFactors[age];
+function lookupAgeFactor (plan_p, age_p) {
+    if (plan_p === "A") {
+        return planAFactors[age_p];
+    } else if (plan_p === "B") {
+        return planBFactors[age_p];
     } else {
-        return planCFactors[age];
+        return planCFactors[age_p];
     }
 }
 

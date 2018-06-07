@@ -23,6 +23,7 @@ let retAge = document.getElementById("retAge");
 let estSSABenefit = document.getElementById("estSSABenefit");
 let ssaYears = document.getElementById("ssaYears");
 
+
 // Look up age factor. Both calc functions would use this, so leave as global variable.
 // let ageFactor = lookupAgeFactor (retPlan.value, retAge.value);
 
@@ -32,6 +33,10 @@ let ssaYears = document.getElementById("ssaYears");
 // Assign Submit button and results to JS variable.
 let submitElem = document.getElementById("submit");
 let resultElem = document.getElementById("results");
+let firebaseElem = document.getElementById("firebaseTest");
+
+// Firebase db object
+let dbPlanRef = firebase.database().ref("plan-type");
 
 // Event listener for Submit button.
 // Later, add a function that will call different calc function depending on Plans ABC or Plan E.
@@ -46,9 +51,13 @@ submitElem.addEventListener("click", function() {
 
         resultElem.textContent = calcPlanEBenefit(retAge.value, avgSalary.value, serviceCredit.value);
     }
+
+    // Save Plan to Firebase
+    dbPlanRef.set(retPlan.value);
     
 
 });
+
 
 
 
@@ -81,6 +90,15 @@ function lookupAgeFactor (plan_p, age_p) {
 function lookupERA (age) {
     return eraFactors[age];
 }
+
+
+dbPlanRef.on("value", displayNewValue);
+
+
+function displayNewValue(dataSnapshot) {
+    firebaseElem.textContent = dataSnapshot.val();
+}
+
 /////////////////////////////////////////////////////////
 
 

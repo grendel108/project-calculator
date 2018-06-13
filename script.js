@@ -35,8 +35,10 @@ let submitElem = document.getElementById("submit");
 let resultElem = document.getElementById("results");
 let firebaseElem = document.getElementById("firebaseTest");
 
-// Firebase db object
+
+// Firebase db object. Sets the Key.
 let dbPlanRef = firebase.database().ref("plan-type");
+
 
 // Event listener for Submit button.
 // Later, add a function that will call different calc function depending on Plans ABC or Plan E.
@@ -52,8 +54,9 @@ submitElem.addEventListener("click", function() {
         resultElem.textContent = calcPlanEBenefit(retAge.value, avgSalary.value, serviceCredit.value);
     }
 
-    // Save Plan to Firebase
-    dbPlanRef.set(retPlan.value);
+    // Save Plan to Firebase. Sets the Value.
+    let myObject = retPlan.value;
+    dbPlanRef.set(myObject);
     
 
 });
@@ -92,8 +95,8 @@ function lookupERA (age) {
 }
 
 
+// Displays value on web page.
 dbPlanRef.on("value", displayNewValue);
-
 
 function displayNewValue(dataSnapshot) {
     firebaseElem.textContent = dataSnapshot.val();

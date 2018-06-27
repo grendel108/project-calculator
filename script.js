@@ -24,6 +24,7 @@ let estSSABenefit = document.getElementById("estSSABenefit");
 let ssaYears = document.getElementById("ssaYears");
 
 
+
 // Look up age factor. Both calc functions would use this, so leave as global variable.
 // let ageFactor = lookupAgeFactor (retPlan.value, retAge.value);
 
@@ -37,7 +38,7 @@ let firebaseElem = document.getElementById("firebaseTest");
 
 
 // Firebase db object. Sets the Key.
-let dbPlanRef = firebase.database().ref("plan-type");
+let dbPlanRef = firebase.database().ref("plan-calcs");
 
 
 // Event listener for Submit button.
@@ -54,9 +55,20 @@ submitElem.addEventListener("click", function() {
         resultElem.textContent = calcPlanEBenefit(retAge.value, avgSalary.value, serviceCredit.value);
     }
 
-    // Save Plan to Firebase. Sets the Value.
-    let myObject = retPlan.value;
-    dbPlanRef.set(myObject);
+    // // Save Plan to Firebase. Sets the Value.
+    // let myObject = retPlan.value;
+    // dbPlanRef.set(myObject);
+
+    // Calculation submission to Firebase.
+    let planCalc = {
+        plan: retPlan.value,
+        salary: avgSalary.value,
+        serviceCredit: serviceCredit.value,
+        age: retAge.value,
+    
+    }
+
+    dbPlanRef.push(planCalc);
     
 
 });
@@ -100,6 +112,7 @@ dbPlanRef.on("value", displayNewValue);
 
 function displayNewValue(dataSnapshot) {
     firebaseElem.textContent = dataSnapshot.val();
+    // How do I pass value to planCalc object to display result?
 }
 
 /////////////////////////////////////////////////////////
@@ -162,3 +175,21 @@ let eraFactors = {
 // https://www.webmasterworld.com/javascript/4451217.htm
 
 // Added this line locally on Macbook.
+
+
+// Push code
+//  // TESTING .push:
+//  let myObject = {
+//     myKey1: "myValue1"
+//   }
+  
+//   var messageListRef = firebase.database().ref('dragonsDefeated');
+//   var newMessageRef = messageListRef.push(myObject);
+//   // newMessageRef.set({
+//   //   'user_id': 'ada',
+//   //   'text': 'The Analytical Engine weaves algebraical patterns just as the Jacquard loom weaves flowers and leaves.'
+//   // });
+//   // // We've appended a new message to the message_list location.
+//   var path = newMessageRef.toString();
+//   console.log(path);
+    

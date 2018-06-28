@@ -65,7 +65,7 @@ submitElem.addEventListener("click", function() {
         salary: avgSalary.value,
         serviceCredit: serviceCredit.value,
         age: retAge.value,
-    
+        benefit: resultElem.textContent    
     }
 
     dbPlanRef.push(planCalc);
